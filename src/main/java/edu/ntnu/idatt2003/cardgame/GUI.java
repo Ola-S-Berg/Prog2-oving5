@@ -20,7 +20,7 @@ public class GUI extends Application {
     handDisplay = new Label("Hand: ");
     resultDisplay = new Label("Result: ");
 
-    VBox layout = new VBox(10, handDisplay, resultDisplay, dealButton, resultDisplay);
+    VBox layout = new VBox(10, handDisplay, dealButton, resultDisplay);
 
     Scene scene = new Scene(layout, 300, 200);
     primaryStage.setScene(scene);
