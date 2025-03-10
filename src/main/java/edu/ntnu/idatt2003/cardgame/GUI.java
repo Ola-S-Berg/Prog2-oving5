@@ -22,7 +22,7 @@ public class GUI extends Application {
 
     VBox layout = new VBox(10, handDisplay, dealButton, resultDisplay);
 
-    Scene scene = new Scene(layout, 300, 200);
+    Scene scene = new Scene(layout, 1200, 800);
     primaryStage.setScene(scene);
     primaryStage.setTitle("Card Game");
     primaryStage.show();
