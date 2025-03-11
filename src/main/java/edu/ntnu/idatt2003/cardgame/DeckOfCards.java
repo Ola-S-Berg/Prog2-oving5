@@ -25,7 +25,7 @@ public class DeckOfCards {
     }
   }
 
-  public Collection<PlayingCard> dealHand(int n) {
+  public List<PlayingCard> dealHand(int n) {
     List <PlayingCard> collection = new ArrayList<>(deck);
     Collections.shuffle(collection, random);
 
