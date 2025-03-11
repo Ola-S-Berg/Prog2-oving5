@@ -5,8 +5,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
-import java.util.*;
+import java.util.Set;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class GUI extends Application {
 
@@ -58,9 +59,24 @@ public class GUI extends Application {
 
   private void checkHand() {
     if (hand == null || hand.isEmpty()) return;
+
+    int sum = hand.stream().mapToInt(PlayingCard::getFace).sum();
+    sumOfFacesField.setText(String.valueOf(sum));
+
+    String hearts = hand.stream().filter(card -> card.getSuit() == 'H').map(PlayingCard::getAsString)
+        .collect(Collectors.joining(" "));
+    heartsField.setText(hearts.isEmpty() ? "No Hearts" : hearts);
+
+    boolean hasQueenOfSpades = hand.stream()
+        .anyMatch(card -> card.getSuit() == 'S' && card.getFace() == 12);
+    queenSpadesLabel.setText("Queen of Spades: " + (hasQueenOfSpades ? "Yes" : "No"));
+    
+    Set<Character> suits = hand.stream().map(PlayingCard::getSuit).collect(Collectors.toSet());
+    flushLabel.setText("Flush: " + (suits.size() == 1 ? "Yes" : "No"));
   }
 
   public static void main(String[] args) {
     launch(args);
   }
 }
+
