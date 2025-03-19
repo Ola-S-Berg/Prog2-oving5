@@ -70,7 +70,7 @@ public class GUI extends Application {
     boolean hasQueenOfSpades = hand.stream()
         .anyMatch(card -> card.getSuit() == 'S' && card.getFace() == 12);
     queenSpadesLabel.setText("Queen of Spades: " + (hasQueenOfSpades ? "Yes" : "No"));
-    
+
     Set<Character> suits = hand.stream().map(PlayingCard::getSuit).collect(Collectors.toSet());
     flushLabel.setText("Flush: " + (suits.size() == 1 ? "Yes" : "No"));
   }
