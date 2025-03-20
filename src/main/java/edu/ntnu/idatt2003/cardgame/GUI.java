@@ -3,10 +3,12 @@ package edu.ntnu.idatt2003.cardgame;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import java.util.Set;
-import java.util.List;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class GUI extends Application {
@@ -16,6 +18,7 @@ public class GUI extends Application {
   private Label handDisplay;
   private TextField sumOfFacesField, heartsField;
   private Label flushLabel, queenSpadesLabel;
+  private HBox cardDisplay; // For showing cards as images
 
   @Override
   public void start(Stage primaryStage) {
@@ -35,14 +38,17 @@ public class GUI extends Application {
     dealButton.setOnAction(e -> dealHand());
     checkButton.setOnAction(e -> checkHand());
 
+    cardDisplay = new HBox(10);
+
     VBox rightPanel = new VBox(10, dealButton, checkButton);
+
     VBox bottomPanel = new VBox(5,
-        new HBox(10, new Label ("Sum of faces:"), sumOfFacesField),
-        new HBox(10, new Label ("Cards of hearts:"), heartsField),
+        new HBox(10, new Label("Sum of faces:"), sumOfFacesField),
+        new HBox(10, new Label("Cards of hearts:"), heartsField),
         flushLabel, queenSpadesLabel);
 
     BorderPane root = new BorderPane();
-    root.setCenter(handDisplay);
+    root.setCenter(cardDisplay);
     root.setRight(rightPanel);
     root.setBottom(bottomPanel);
 
@@ -54,7 +60,42 @@ public class GUI extends Application {
 
   private void dealHand() {
     hand = deck.dealHand(5);
-    handDisplay.setText("Hand: " + hand);
+    cardDisplay.getChildren().clear();
+
+    for (PlayingCard card : hand) {
+      VBox cardBox = createCardDisplay(card);
+      cardDisplay.getChildren().add(cardBox);
+    }
+
+    checkHand();
+  }
+
+  private VBox createCardDisplay(PlayingCard card) {
+    Image img = new Image(getCardImagePath(card.getSuit()));
+    ImageView imageView = new ImageView(img);
+    imageView.setFitWidth(120);
+    imageView.setFitHeight(150);
+
+    Label label = new Label(card.getAsString());
+
+    VBox box = new VBox(imageView, label);
+    box.setStyle("-fx-border-color: black; -fx-padding: 10;");
+    return box;
+  }
+
+  private String getCardImagePath(char suit) {
+    switch (suit) {
+      case 'H':
+        return "file:src/main/java/edu/ntnu/idatt2003/cardgame/images/Hearts.png";
+      case 'D':
+        return "file:src/main/java/edu/ntnu/idatt2003/cardgame/images/Diamonds.png";
+      case 'S':
+        return "file:src/main/java/edu/ntnu/idatt2003/cardgame/images/Spades.png";
+      case 'C':
+        return "file:src/main/java/edu/ntnu/idatt2003/cardgame/images/Clubs.png";
+      default:
+        return "file:src/main/java/edu/ntnu/idatt2003/cardgame/images/default.png"; // Fallback image
+    }
   }
 
   private void checkHand() {
@@ -63,8 +104,10 @@ public class GUI extends Application {
     int sum = hand.stream().mapToInt(PlayingCard::getFace).sum();
     sumOfFacesField.setText(String.valueOf(sum));
 
-    String hearts = hand.stream().filter(card -> card.getSuit() == 'H').map(PlayingCard::getAsString)
-        .collect(Collectors.joining(" "));
+    String hearts = hand.stream()
+        .filter(card -> card.getSuit() == 'H')
+        .map(PlayingCard::getAsString)
+        .collect(Collectors.joining(", "));
     heartsField.setText(hearts.isEmpty() ? "No Hearts" : hearts);
 
     boolean hasQueenOfSpades = hand.stream()
@@ -79,4 +122,3 @@ public class GUI extends Application {
     launch(args);
   }
 }
-
