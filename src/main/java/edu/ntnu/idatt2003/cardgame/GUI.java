@@ -94,7 +94,7 @@ public class GUI extends Application {
       case 'C':
         return "file:src/main/java/edu/ntnu/idatt2003/cardgame/images/Clubs.png";
       default:
-        return "file:src/main/java/edu/ntnu/idatt2003/cardgame/images/default.png"; // Fallback image
+        return "file:src/main/java/edu/ntnu/idatt2003/cardgame/images/default.png";
     }
   }
 
