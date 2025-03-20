@@ -18,7 +18,7 @@ public class GUI extends Application {
   private Label handDisplay;
   private TextField sumOfFacesField, heartsField;
   private Label flushLabel, queenSpadesLabel;
-  private HBox cardDisplay; // For showing cards as images
+  private HBox cardDisplay;
 
   @Override
   public void start(Stage primaryStage) {
