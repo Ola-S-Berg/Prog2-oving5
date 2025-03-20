@@ -73,8 +73,8 @@ public class GUI extends Application {
   private VBox createCardDisplay(PlayingCard card) {
     Image img = new Image(getCardImagePath(card.getSuit()));
     ImageView imageView = new ImageView(img);
-    imageView.setFitWidth(120);
-    imageView.setFitHeight(150);
+    imageView.setFitWidth(200);
+    imageView.setFitHeight(500);
 
     Label label = new Label(card.getAsString());
 
